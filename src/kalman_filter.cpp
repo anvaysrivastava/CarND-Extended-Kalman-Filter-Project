@@ -90,15 +90,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     y(1) = atan2(sin(y(1)), cos(y(1)));
     const double pi = 3.14159265358979323846;
     if (y(1) < -pi) {
-        cout << "UpdateEKF() -- PHI < -3.14!!!!  PHI= " << y(1);
         y(1) = y(1) + 2*pi;
-        cout << " .....Now it's: " << y(1) << endl;
         
     }
     else if (y(1) > pi) {
-        cout << "PHI > 3.14!!!!  PHI= " << y(1);
         y(1) = y(1) - 2*pi;
-        cout << " .....Now it's: " << y(1) << endl;
     }
 
     

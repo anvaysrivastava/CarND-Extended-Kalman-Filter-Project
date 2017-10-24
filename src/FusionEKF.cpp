@@ -66,8 +66,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.P_ = MatrixXd(4, 4);
     ekf_.P_ << 1, 0, 0, 0,
                0, 1, 0, 0,
-               0, 0, 1000, 0,
-               0, 0, 0, 1000;
+               0, 0, 1, 0,
+               0, 0, 0, 1;
       
       //the initial transition matrix F_
     ekf_.F_ = MatrixXd(4, 4);
@@ -80,12 +80,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-      int lenth_of_raw_measurements = sizeof(measurement_pack.raw_measurements_)/sizeof(measurement_pack.raw_measurements_[0]);
-      cout<<"length of mesurement is in Radar. "<<lenth_of_raw_measurements<<endl;
       float range = measurement_pack.raw_measurements_[0];
       float angle = measurement_pack.raw_measurements_[1];
       float range_rate = measurement_pack.raw_measurements_[2];
-      cout<<"range "<<range<<" angle "<<angle<<" range_rate"<<range_rate<<endl;
       float px = range * cos(angle);
       float py = range * sin(angle);
       float vx = range_rate * cos(angle);
@@ -99,8 +96,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Initialize state.
       */
-      int lenth_of_raw_measurements = sizeof(measurement_pack.raw_measurements_)/sizeof(measurement_pack.raw_measurements_[0]);
-      cout<<"length of mesurement is in Lidar. "<<lenth_of_raw_measurements<<endl;
       float px = measurement_pack.raw_measurements_[0];
       float py = measurement_pack.raw_measurements_[1];
         
@@ -155,7 +150,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   if (dt > 0.001) {
     ekf_.Predict();
   }
-  ekf_.Predict();
 
   /*****************************************************************************
    *  Update
